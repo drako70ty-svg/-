@@ -29,23 +29,11 @@ jobs:
         with:
           packages: "platform-tools platforms;android-35 build-tools;35.0.0"
 
-      - 
-      - name: Generate Gradle Wrapper and Build APK
-        run: |
-          gradle wrapper --gradle-version 8.7
-          chmod +x ./gradlew
-          ./gradlew --no-daemon assembleDebug
-
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
 
       - name: Build debug APK
-        run: |
-          if [ -f ./gradlew ]; then
-            chmod +x ./gradlew
-            ./gradlew --no-daemon assembleDebug
-          else
-            echo "ERROR: Gradle wrapper (gradlew) is missing."
-            exit 1
-          fi
+        run: gradle --no-daemon assembleDebug
 
       - name: Upload APK
         if: success()
@@ -54,4 +42,3 @@ jobs:
           name: institute-android-apk
           path: app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
-
