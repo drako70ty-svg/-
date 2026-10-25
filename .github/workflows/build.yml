@@ -32,8 +32,7 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Build debug APK
-        run: gradle --no-daemon assembleDebug
+      - run: gradle --no-daemon assembleDebug --stacktrace
 
       - name: Upload APK
         if: success()
